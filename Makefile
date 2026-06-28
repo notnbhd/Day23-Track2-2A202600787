@@ -61,6 +61,9 @@ trace: ## generate one traced request and print its trace_id
 drift: ## run drift detection notebook (cli mode)
 	cd 04-drift-detection && python3 scripts/drift_detect.py
 
+agentops: ## (bonus B3) instrument a mock agent: OTel spans + agent SLIs (deck §18)
+	python3 BONUS-agentops/agent_run.py
+
 demo: ## end-to-end demo (load -> alert -> trace -> drift)
 	$(MAKE) load
 	$(MAKE) alert

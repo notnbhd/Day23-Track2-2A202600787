@@ -1,6 +1,6 @@
 # Day 23 Lab Rubric
 
-**Core: 100 points · Bonus: 20 points (additive, not gating)**
+**Core: 100 points · Bonus: 30 points (additive, not gating)**
 
 Grader runs `make verify` from a clean clone. Exit code 0 = all core checkpoints pass.
 
@@ -41,6 +41,7 @@ Grader runs `make verify` from a clean clone. Exit code 0 = all core checkpoints
 |---|---|---|---|
 | B1 | BONUS-ebpf-profiling | +10 | Pyroscope flame graph for `day23-app` Python process (Linux/WSL only) |
 | B2 | BONUS-llm-native-obs | +10 | Langfuse self-hosted, capture 1 LangChain LLM trace |
+| B3 | BONUS-agentops | +10 | `agentops-report.json` + Jaeger span-tree screenshot (`day23-agent`) **+** one extension (instrument your own agent / SLIs→Grafana / new failure mode / `--real-llm`); REFLECTION on pass^k vs pass@k |
 
 ---
 

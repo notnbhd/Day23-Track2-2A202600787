@@ -14,6 +14,7 @@ You will:
 - Configure **tail-sampling** in OTel Collector (keep all errors + 1% healthy)
 - Run **drift detection** (PSI / KL / KS) on a synthetic shifted dataset
 - Integrate metrics from prior days (16 cloud, 17 pipelines, 18 lakehouse, 19 vector store, 20 serving, 22 alignment)
+- *(bonus)* Operate the agent **you** built: **AgentOps** — agent spans + SLIs (loop / tool-error / cost-per-task), deck §18
 
 ## Before you start
 
@@ -50,29 +51,33 @@ make down                  # stop (preserves data)
 | `05-integration/`         | Wire prior days 16-22            | 20 min | cross-day dashboard |
 | `BONUS-llm-native-obs/`   | Self-hosted Langfuse (optional)  | +30 min | LLM trace from LangChain |
 | `BONUS-ebpf-profiling/`   | Pyroscope (Linux/WSL only)       | +30 min | flame graph for app |
+| `BONUS-agentops/`         | AgentOps: agent spans + agent SLIs | +30 min | `agentops-report.json` + Jaeger span tree |
 
-**Total core time:** ~2 h. **Bonus:** +1 h.
+**Total core time:** ~2 h. **Bonus:** +1.5 h (3 bonus tracks).
 
 ## Slide → Track mapping
 
-> Deck rebuilt 2026-06 to **15 sections** (infra deepdive). Mapping:
+> Lecture deck (2026 cut) = **20 sections**: Part A observability §1–14, Part B Ops §15–19 (Ops-Trinity · MLOps · LLMOps · AgentOps · **AIOps**), §20 demo.
 
 | Deck section | Lab track |
 |---|---|
-| §1 Evolution · §2 Pillars + RED/USE     | reading · `01-instrument-fastapi/` |
-| §3 Prometheus + Cardinality              | `02-prometheus-grafana/prometheus/` |
-| §4 Metrics-at-Scale & TSDB               | reading (cardinality control in `prometheus/`) |
-| §5 Grafana + Dashboards-as-Code          | `02-prometheus-grafana/grafana/` |
-| §6 SLO + Burn-Rate                        | `02-prometheus-grafana/prometheus/rules/slo-burn-rate.yml` |
-| §7 Tracing + OTel + Sampling             | `03-tracing-and-logs/` |
-| §8 GPU & LLM-Serving Telemetry           | `05-integration/monitor-day20-llama-cpp.py` · `HARDWARE-GUIDE.md` |
-| §9 eBPF, Profiling & Observability 2.0   | `BONUS-ebpf-profiling/` |
-| §10 AI-Specific: Drift & Eval            | `04-drift-detection/` |
-| §11 Cost + FinOps + Vendors              | `02-prometheus-grafana/grafana/dashboards/cost-and-tokens.json` |
-| §12 Postmortems + On-Call                | `submission/REFLECTION.md` |
-| §13 Agent Observability                  | reading · `BONUS-llm-native-obs/` |
-| §14 Experimentation & Advanced Drift     | `04-drift-detection/` (advanced drift) |
-| §15 Demo + Lab + Summary                 | `make demo` |
+| §1 Evolution · §2 LLM-Native Signals (RED/USE) | reading · `01-instrument-fastapi/` |
+| §3 Prometheus + Cardinality                    | `02-prometheus-grafana/prometheus/` |
+| §4 Metrics-at-Scale & TSDB / Columnar          | reading (cardinality control in `prometheus/`) |
+| §5 Grafana + Dashboards-as-Code                | `02-prometheus-grafana/grafana/` |
+| §6 SLO + Burn-Rate                             | `02-prometheus-grafana/prometheus/rules/slo-burn-rate.yml` |
+| §7 Tracing + OTel-GenAI + Sampling             | `03-tracing-and-logs/` |
+| §8 GPU & LLM-Serving Telemetry                 | `05-integration/monitor-day20-llama-cpp.py` · `HARDWARE-GUIDE.md` |
+| §9 eBPF, Profiling & Observability 2.0         | `BONUS-ebpf-profiling/` |
+| §10 AI-Specific: Drift & Eval                  | `04-drift-detection/` |
+| §11 Cost + FinOps                              | `02-prometheus-grafana/grafana/dashboards/cost-and-tokens.json` |
+| §12 Postmortems · On-Call · Compliance         | `submission/REFLECTION.md` |
+| §13 Agent Observability                        | reading · `BONUS-llm-native-obs/` |
+| §14 Experimentation · Shadow / Canary          | `04-drift-detection/` (advanced) |
+| §15–17 Ops Trinity · MLOps · LLMOps             | reading (Part B — conceptual) |
+| **§18 AgentOps (agent SLIs, span tree)**         | **`BONUS-agentops/`** |
+| §19 AIOps (AI for IT ops)                        | reading (Part B — conceptual) |
+| §20 Demo + Lab + Summary                       | `make demo` |
 
 ## What's NOT in the lab (and why)
 
@@ -109,6 +114,7 @@ Public GitHub URL + commits in `submission/screenshots/` and `submission/REFLECT
 ├── 05-integration/              ← scrapers/stubs for Days 16-22
 ├── BONUS-ebpf-profiling/        ← Pyroscope (Linux/WSL)
 ├── BONUS-llm-native-obs/        ← self-hosted Langfuse
+├── BONUS-agentops/             ← AgentOps: agent spans + SLIs (deck §18)
 ├── scripts/                     ← verify.py, trigger-alert.sh, lint-dashboards.py
 └── submission/                  ← REFLECTION.md + screenshots/
 ```
