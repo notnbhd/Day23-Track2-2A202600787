@@ -37,10 +37,10 @@ logs: ## tail logs from all services
 
 smoke: ## health-check all 7 services
 	@echo "Checking services..."
-	@curl -fsS http://localhost:8000/healthz   > /dev/null && echo "  app:           OK"
+	@curl -fsS http://localhost:8010/healthz   > /dev/null && echo "  app:           OK"
 	@curl -fsS http://localhost:9090/-/healthy > /dev/null && echo "  prometheus:    OK"
 	@curl -fsS http://localhost:9093/-/healthy > /dev/null && echo "  alertmanager:  OK"
-	@curl -fsS http://localhost:3000/api/health | grep -q '"database":"ok"' && echo "  grafana:       OK"
+	@curl -fsS http://localhost:3010/api/health | grep -q '"database":"ok"' && echo "  grafana:       OK"
 	@curl -fsS http://localhost:3100/ready     > /dev/null && echo "  loki:          OK"
 	@curl -fsS http://localhost:16686/         > /dev/null && echo "  jaeger:        OK"
 	@curl -fsS http://localhost:8888/metrics   > /dev/null && echo "  otel-collector: OK"
@@ -48,13 +48,13 @@ smoke: ## health-check all 7 services
 
 load: ## run baseline locust load (concurrency=10, 60s)
 	cd 02-prometheus-grafana/load-test && \
-	  locust -f locustfile.py --headless -u 10 -r 2 -t 60s --host http://localhost:8000
+	  locust -f locustfile.py --headless -u 10 -r 2 -t 60s --host http://localhost:8010
 
 alert: ## trigger an alert by killing the app, wait, then restore
 	bash scripts/trigger-alert.sh
 
 trace: ## generate one traced request and print its trace_id
-	@curl -sS -X POST http://localhost:8000/predict \
+	@curl -sS -X POST http://localhost:8010/predict \
 	  -H 'Content-Type: application/json' \
 	  -d '{"prompt":"hello"}' | python3 -c 'import json,sys; d=json.load(sys.stdin); print("trace_id:",d.get("trace_id","?"))'
 
